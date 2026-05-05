@@ -15,12 +15,17 @@
         "name": "finance",
         "color": "blue"
       }
-    ]
+    ],
+    "x-rapidapi-config": {
+      "has_api_key": true,
+      "api_key_header": "x-api-key",
+      "default_api_key": "rapidapi_live_key_fidelitybridge"
+    }
   },
   "servers": [
     {
       "url": "https://fidelitybridge-api-production.up.railway.app",
-      "description": "Production"
+      "description": "Production (Railway)"
     }
   ],
   "paths": {

@@ -1,0 +1,168 @@
+{
+  "name": "FidelityBridge API",
+  "version": "1.0.0",
+  "description": "Real-time financial data from SEC EDGAR filings. Access company filings, financial reports, and corporate data for thousands of publicly traded companies.",
+  "logo": "https://fidelitybridge.com/logo.png",
+  "documentation_url": "https://docs.fidelitybridge.com",
+  "support_email": "support@fidelitybridge.com",
+  "pricing": {
+    "currency": "USD",
+    "billing_interval": "month"
+  },
+  "tiers": [
+    {
+      "name": "Free",
+      "price": 0,
+      "requests_per_day": 100,
+      "requests_per_month": 3000,
+      "features": [
+        "100 requests per day",
+        "Basic company data",
+        "SEC filing search",
+        "Standard rate limiting",
+        "Community support"
+      ],
+      "rate_limit": "100/day, 30/minute",
+      "recommended": false
+    },
+    {
+      "name": "Basic",
+      "price": 9.99,
+      "requests_per_day": 5000,
+      "requests_per_month": 150000,
+      "features": [
+        "5,000 requests per day",
+        "All Free features",
+        "Filing detail access",
+        "Higher rate limits",
+        "Email support (48hr response)",
+        "Up to 3 API keys"
+      ],
+      "rate_limit": "5,000/day, 60/minute",
+      "recommended": false
+    },
+    {
+      "name": "Pro",
+      "price": 49.99,
+      "requests_per_day": 50000,
+      "requests_per_month": 1500000,
+      "features": [
+        "50,000 requests per day",
+        "All Basic features",
+        "Full SEC EDGAR access",
+        "Batch query support",
+        "Priority email support (12hr)",
+        "Up to 10 API keys",
+        "Usage analytics dashboard"
+      ],
+      "rate_limit": "50,000/day, 120/minute",
+      "recommended": true
+    },
+    {
+      "name": "Enterprise",
+      "price": 499.99,
+      "requests_per_day": 1000000,
+      "requests_per_month": 30000000,
+      "features": [
+        "Unlimited requests (1M/day soft cap)",
+        "All Pro features",
+        "Real-time SEC streaming",
+        "Custom integrations",
+        "Dedicated account manager",
+        "SLA guarantee (99.9% uptime)",
+        "Unlimited API keys",
+        "Custom data extracts",
+        "SSO/SAML authentication"
+      ],
+      "rate_limit": "1,000,000/day, 300/minute",
+      "recommended": false
+    }
+  ],
+  "endpoints": {
+    "base_url": "https://fidelitybridge-api.railway.app",
+    "rapidapi_url": "https://fidelitybridge-api.p.rapidapi.com",
+    "list": [
+      {
+        "path": "/v1/health",
+        "method": "GET",
+        "description": "API health check",
+        "auth_required": false,
+        "rate_limited": true
+      },
+      {
+        "path": "/v1/company/{cik}",
+        "method": "GET",
+        "description": "Get company data by CIK",
+        "auth_required": true,
+        "rate_limited": true,
+        "parameters": {
+          "cik": "SEC Central Index Key (e.g., 0000320193 for Apple)"
+        }
+      },
+      {
+        "path": "/v1/filings",
+        "method": "GET",
+        "description": "Search SEC filings by CIK or ticker",
+        "auth_required": true,
+        "rate_limited": true,
+        "parameters": {
+          "cik": "SEC CIK number (optional if ticker provided)",
+          "ticker": "Stock ticker symbol (optional if cik provided)",
+          "filing_type": "Filter by filing type (10-K, 10-Q, 8-K, etc.)",
+          "limit": "Results per page (1-100, default: 10)",
+          "offset": "Pagination offset (default: 0)"
+        }
+      },
+      {
+        "path": "/v1/filing/{accession}",
+        "method": "GET",
+        "description": "Get filing details by accession number",
+        "auth_required": true,
+        "rate_limited": true,
+        "parameters": {
+          "accession": "SEC filing accession number (e.g., 0000320193-24-000123)"
+        }
+      },
+      {
+        "path": "/v1/companies",
+        "method": "GET",
+        "description": "List all curated companies with CIK numbers",
+        "auth_required": true,
+        "rate_limited": true
+      }
+    ]
+  },
+  "authentication": {
+    "type": "API Key",
+    "header_name": "x-api-key",
+    "description": "Include your API key in the x-api-key header of every request. Get your key by subscribing on RapidAPI."
+  },
+  "errors": {
+    "401": "Missing or invalid API key",
+    "403": "API key not authorized for this endpoint or tier limit exceeded",
+    "404": "Resource not found",
+    "429": "Rate limit exceeded - slow down and retry",
+    "500": "Internal server error"
+  },
+  "example_requests": {
+    "curl": [
+      "curl -H 'x-api-key: YOUR_API_KEY' https://fidelitybridge-api.railway.app/v1/health",
+      "curl -H 'x-api-key: YOUR_API_KEY' https://fidelitybridge-api.railway.app/v1/company/0000320193",
+      "curl -H 'x-api-key: YOUR_API_KEY' 'https://fidelitybridge-api.railway.app/v1/filings?ticker=AAPL&filing_type=10-K&limit=5'",
+      "curl -H 'x-api-key: YOUR_API_KEY' https://fidelitybridge-api.railway.app/v1/filing/0000320193-24-000123"
+    ],
+    "python": [
+      "import requests",
+      "headers = {'x-api-key': 'YOUR_API_KEY'}",
+      "resp = requests.get('https://fidelitybridge-api.railway.app/v1/company/0000320193', headers=headers)",
+      "data = resp.json()"
+    ],
+    "javascript": [
+      "fetch('https://fidelitybridge-api.railway.app/v1/company/0000320193', {",
+      "  headers: { 'x-api-key': 'YOUR_API_KEY' }",
+      "})",
+      ".then(resp => resp.json())",
+      ".then(data => console.log(data))"
+    ]
+  }
+}

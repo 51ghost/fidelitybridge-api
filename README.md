@@ -350,3 +350,13 @@ MIT License — see [LICENSE](LICENSE).
 - **Email:** support@fidelitybridge.com
 - **Docs:** https://docs.fidelitybridge.com
 - **GitHub:** https://github.com/51ghost/fidelitybridge-api
+
+
+## Deployed URL
+
+**https://fidelitybridge-api-production.up.railway.app**
+
+### Test it
+```bash
+curl -H 'x-api-key: rapidapi_live_key_fidelitybridge' https://fidelitybridge-api-production.up.railway.app/v1/health
+```
